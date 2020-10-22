@@ -31,12 +31,23 @@ switch (command) {
             .catch(console.log)
         break;
     case CRUD.UPDATE:
-        console.log("Updated!!");
+        const search = {}
+        const action = args[1].split("=");
+        search[action[0].substring(2)] = action[1]
+        const values = {}
+        args.slice(2).map(args => {
+            const tmp = args.split("=");
+            values[tmp[0].substring(2)] = tmp[1]
+        })
+        console.log(values);
+        db[entity]
+            .update(values, { where: search })
+            .then(console.log)
+            .catch(console.log)
         break;
     case CRUD.DELETE:
         const obj = {}
         const command = args[1].split("=");
-        const idToDelete = command[1]
         obj[command[0].substring(2)] = command[1]
         db[entity]
             .destroy({ where: obj })
