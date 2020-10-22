@@ -34,7 +34,18 @@ switch (command) {
         console.log("Updated!!");
         break;
     case CRUD.DELETE:
-        console.log("Deleted!!");
+        const obj = {}
+        const command = args[1].split("=");
+        const idToDelete = command[1]
+        obj[command[0].substring(2)] = command[1]
+        db[entity]
+            .destroy({ where: obj })
+            .then((code) => {
+                if (code === 1) {
+                    console.log("The row was deleted succesfully");
+                }
+            })
+            .catch(console.log)
         break;
 
     default:
